@@ -1,0 +1,1171 @@
+/* ШРИФТЫ */
+/* montserrat лежит в проекте, чтобы работать офлайн */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(../fonts/montserrat-cyrillic-wght-normal.woff2) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url(../fonts/montserrat-latin-wght-normal.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ЦВЕТА */
+:root {
+  --bg: #151515;
+  --pink: #ff1793;
+  --pink-soft: #ffafca;
+  --white: #ffffff;
+  --muted: rgba(255, 255, 255, 0.55);
+  --glass: rgba(255, 200, 230, 0.1);
+  --glass-line: rgba(255, 255, 255, 0.28);
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --logo-w: clamp(180px, 50vw, 340px);
+  color-scheme: dark;
+}
+
+/* БАЗА */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--bg);
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-weight: 400;
+  color: var(--white);
+  overflow-x: clip;
+  -webkit-tap-highlight-color: transparent;
+}
+h1, h2, h3 {
+  font-weight: 700;
+  margin: 0;
+}
+button {
+  font: inherit;
+  color: inherit;
+}
+[hidden] {
+  display: none !important;
+}
+
+/* ШАПКА */
+/* одинаковая на всех страницах: большой логотип, иконки меню и «назад» одного размера */
+.top {
+  --icon: max(24px, calc(var(--logo-w) * 0.13));
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 28px 16px 4px;
+  position: relative;
+  z-index: 50;
+  overflow: hidden;
+}
+.logo {
+  grid-column: 2;
+  display: block;
+  justify-self: center;
+  line-height: 0;
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.logo img {
+  width: var(--logo-w);
+  height: auto;
+}
+.top-right {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+  position: relative;
+  z-index: 2;
+}
+.top-left {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  justify-self: start;
+  position: relative;
+  z-index: 2;
+}
+
+/* МЕНЮ */
+/* полоски справа поворачиваются, логотип уезжает влево за экран,
+   на его месте справа налево проявляются пункты */
+.top.menu-open .logo {
+  transform: translateX(-110vw);
+  pointer-events: none;
+}
+.menu-btn,
+.back {
+  width: calc(var(--icon) + 12px);
+  height: calc(var(--icon) + 12px);
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--white);
+  cursor: pointer;
+  transition: color 0.25s, opacity 0.3s ease;
+}
+.menu-btn svg,
+.back svg {
+  width: var(--icon);
+  height: var(--icon);
+}
+.menu-btn svg {
+  transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.top.menu-open .menu-btn svg {
+  transform: rotate(-90deg);
+}
+.top.menu-open .back {
+  opacity: 0;
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .menu-btn:hover,
+  .back:hover {
+    color: var(--pink);
+  }
+}
+.menu-row {
+  position: absolute;
+  top: 28px;
+  bottom: 4px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: clamp(28px, 5vw, 64px);
+  padding: 0 calc(16px + var(--icon) + 22px) 0 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.menu-row::-webkit-scrollbar {
+  display: none;
+}
+/* по центру, а если не влезает — прокрутка, а не наезд на иконку */
+.menu-row > :first-child {
+  margin-left: auto;
+}
+.menu-row > :last-child {
+  margin-right: auto;
+}
+.top.menu-open .menu-row {
+  pointer-events: auto;
+}
+.menu-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: clamp(0.84rem, calc(var(--logo-w) * 0.065), 1.3rem);
+  opacity: 0;
+  transform: translateX(18px);
+  transition: opacity 0.3s ease, transform 0.4s var(--ease), color 0.2s;
+}
+.top.menu-open .menu-item {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.15s;
+}
+.top.menu-open .menu-item:nth-last-child(2) { transition-delay: 0.22s; }
+.top.menu-open .menu-item:nth-last-child(3) { transition-delay: 0.29s; }
+.top.menu-open .menu-item:nth-last-child(4) { transition-delay: 0.36s; }
+@media (hover: hover) {
+  .menu-item:hover {
+    color: var(--pink);
+    transition-delay: 0s;
+  }
+}
+.menu-badge {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: var(--pink);
+  color: var(--white);
+  font-size: 0.75rem;
+  display: grid;
+  place-items: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* подпись «Задание 4 · Поток» уезжает вместе с логотипом */
+body.menu-open .page-label {
+  transform: translateX(-110vw);
+}
+.page-label {
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+  text-align: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 2px 0 0;
+  position: relative;
+  z-index: 50;
+}
+
+/* БЕГУЩАЯ СТРОКА */
+.definition {
+  margin: 0.2rem 0 0.5rem;
+  height: 3.2rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 100;
+}
+.scrolling-text {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 1.05rem;
+  will-change: transform;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  word-spacing: 0.12rem;
+}
+
+/* КНОПКИ */
+.buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+/* в карточке задания: теория во всю ширину, поток и раунд под ней поровну */
+.task .buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 340px;
+  max-width: 100%;
+}
+.task .buttons > .btn {
+  padding-inline: 0.6rem;
+}
+.task .buttons .btn.wide {
+  grid-column: 1 / -1;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.6rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.btn:active {
+  transform: scale(0.96);
+}
+.btn.glass {
+  background-color: var(--glass);
+  border: 2px solid var(--white);
+  color: var(--white);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.btn.pink {
+  background-color: var(--pink);
+  color: var(--white);
+  border: none;
+}
+.btn[disabled] {
+  opacity: 0.35;
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .btn.glass:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.9);
+    color: black;
+  }
+  .btn.pink:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(255, 23, 147, 0.5);
+    background-color: var(--white);
+    color: var(--pink);
+  }
+}
+
+/* кнопка раунда со стрелкой */
+.split {
+  position: relative;
+  display: flex;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 4px;
+}
+.split .btn {
+  border-radius: 0;
+}
+.split .split-main {
+  flex: 1;
+  border-radius: 4px 0 0 4px;
+  padding: 0.6rem 0.9rem;
+}
+/* стрелка отделена тонкой линией, сама стрелка тонкая */
+.split .split-arrow {
+  position: relative;
+  flex: none;
+  width: 46px;
+  padding: 0;
+  border-radius: 0 4px 4px 0;
+}
+.split .split-arrow::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.55);
+}
+.split-arrow svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s var(--ease);
+}
+.split.open .split-arrow svg {
+  transform: rotate(180deg);
+}
+@media (hover: hover) {
+  .split .btn.pink:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .split:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(255, 23, 147, 0.5);
+  }
+}
+
+/* выезжающая плашка */
+.round-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 6px;
+  background: rgba(30, 12, 22, 0.55);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 0;
+  transform: translateY(-8px) scale(0.97);
+  transform-origin: top right;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.3s var(--ease);
+  z-index: 20;
+}
+.split.open .round-menu {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.round-label {
+  align-self: center;
+  font-size: 0.75rem;
+  color: var(--muted);
+  padding: 0 6px 0 4px;
+  white-space: nowrap;
+}
+.round-opt {
+  min-width: 46px;
+  height: 40px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s, color 0.25s;
+}
+.round-opt.active {
+  background: var(--pink);
+}
+@media (hover: hover) {
+  .round-opt:not(.active):hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+/* ГЛАВНАЯ: ЗАДАНИЯ */
+/* на телефоне столбиком, чётные задания у правого края */
+.tasks {
+  position: relative;
+  padding: 0 clamp(28px, 8vw, 48px) 24vw;
+  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+.task {
+  position: relative;
+  margin: 5rem 0 8rem;
+}
+.task:nth-child(even) .task-content {
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+}
+.task-content {
+  position: relative;
+  z-index: 2;
+}
+.task-content:has(.split.open) {
+  z-index: 30;
+}
+.task-number {
+  font-size: clamp(2.2rem, 10vw, 3rem);
+  font-weight: 700;
+}
+.task-description {
+  margin: 0.6rem 0 1.6rem;
+  font-size: 1.05rem;
+}
+
+/* ПОЛИГОНЫ */
+/* размеры в vw: фигуры уменьшаются пропорционально окну */
+/* стекло: прежний розовый и размытие того, что под фигурой */
+.polygon,
+.bg-shape {
+  background: rgba(255, 175, 202, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.polygon {
+  position: absolute;
+  /* фигура по центру карточки по высоте, а не свисает вниз */
+  top: 50%;
+  height: var(--h);
+  margin-top: calc(var(--h) / -2);
+  z-index: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+.polygon.polygon--alt {
+  animation-direction: reverse;
+  animation-duration: 230s;
+}
+.polygon1 {
+  left: -32vw;
+  width: 160vw;
+  --h: 64vw;
+  clip-path: polygon(10% 0%, 90% 10%, 80% 90%, 0% 80%);
+  animation: spin 160s linear infinite;
+}
+.polygon2 {
+  left: -40vw;
+  width: 168vw;
+  --h: 74vw;
+  clip-path: polygon(0% 80%, 95% 0%, 90% 90%, 10% 100%);
+  animation: spin 190s linear infinite;
+}
+.polygon3 {
+  left: -26vw;
+  width: 100vw;
+  --h: 138vw;
+  clip-path: polygon(15% 5%, 85% 10%, 95% 35%, 5% 90%);
+  animation: spin 210s linear infinite;
+}
+.polygon4 {
+  left: -36vw;
+  width: 150vw;
+  --h: 62vw;
+  clip-path: polygon(5% 20%, 95% 0%, 85% 85%, 0% 100%);
+  animation: spin 175s linear infinite reverse;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* фигура на фоне практики и теории */
+.bg-shape {
+  position: fixed;
+  z-index: -1;
+  left: 50%;
+  top: 46%;
+  width: min(900px, 150vw);
+  height: min(320px, 60vw);
+  margin-left: calc(min(900px, 150vw) / -2);
+  margin-top: calc(min(320px, 60vw) / -2);
+  clip-path: polygon(10% 0%, 40% 10%, 80% 90%, 0% 80%);
+  animation: spin 160s linear infinite;
+  pointer-events: none;
+}
+.bg-shape {
+  background: rgba(255, 175, 202, 0.45);
+}
+/* на страницах заданий фигура появляется в случайном месте */
+.bg-shape--theory {
+  top: 30%;
+  background: rgba(255, 175, 202, 0.22);
+}
+
+/* ПЛАНШЕТ: РАЗМЕР ФИГУР КАК НА КОМПЬЮТЕРЕ, БЕЗ СКАЧКА НА 900PX */
+@media (min-width: 600px) {
+  .tasks { padding-bottom: 18vw; }
+  .polygon1 { left: -6vw; width: calc(43.7vw + 349.7px); --h: calc(16.7vw + 133.7px); }
+  .polygon2 { left: 30vw; width: calc(48.9vw + 390.9px); --h: calc(20.6vw + 164.6px); }
+  .polygon3 { left: -2vw; width: calc(27vw + 216px); --h: calc(38.6vw + 308.6px); }
+  .polygon4 { left: 28vw; width: calc(41.2vw + 329.2px); --h: calc(16.7vw + 133.7px); }
+}
+
+/* ДЕСКТОП: ГЛАВНАЯ ЗИГЗАГОМ */
+@media (min-width: 900px) {
+  .tasks {
+    padding: 0 0 8vw;
+  }
+  .task {
+    width: 40%;
+    margin: 11rem 0;
+    margin-left: max(6%, 48px);
+  }
+  .task:nth-child(even) {
+    margin-left: auto;
+    margin-right: max(6%, 48px);
+    margin-top: -40px;
+  }
+  .task:nth-child(even) .task-content { margin-left: 0; }
+  .task:nth-child(4n+3) { margin-left: 24%; }
+  /* задание 10 правее остальных правых примерно на половину своей ширины */
+  .task:nth-child(4) .task-content { margin-left: clamp(0px, calc(100% - 360px), 30%); }
+  .polygon1 { left: -10vw; width: calc(43.7vw + 349.7px); --h: calc(16.7vw + 133.7px); }
+  .polygon2 { left: -22vw; width: calc(48.9vw + 390.9px); --h: calc(20.6vw + 164.6px); }
+  .polygon3 { left: -16vw; width: calc(27vw + 216px); --h: calc(38.6vw + 308.6px); }
+  .polygon4 { left: -14vw; width: calc(41.2vw + 329.2px); --h: calc(16.7vw + 133.7px); }
+  .scrolling-text { font-size: 1.2rem; }
+}
+
+/* ПРАКТИКА */
+.practice {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* экран минус шапка: задание стоит по центру оставшегося места */
+  min-height: calc(100vh - 64px - var(--logo-w) * 0.243);
+  min-height: calc(100dvh - 64px - var(--logo-w) * 0.243);
+  padding-bottom: 26vh;
+}
+.progress {
+  width: min(420px, 100%);
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.14);
+  margin: 14px auto 0;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 0;
+  border-radius: 3px;
+  background: var(--pink);
+  box-shadow: 0 0 10px var(--pink);
+  transition: width 0.5s var(--ease);
+}
+.progress--retry {
+  margin-top: 8px;
+}
+.progress--retry .progress-fill {
+  background: var(--pink-soft);
+  box-shadow: 0 0 10px var(--pink-soft);
+}
+.retry-tag {
+  margin-top: 18px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1.5px solid var(--pink);
+  color: var(--pink);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.prompt {
+  margin: 22px 0 0;
+  text-align: center;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  max-width: 34ch;
+}
+.stage {
+  /* формулировка остаётся наверху, само задание — по центру свободного места */
+  margin-top: auto;
+  padding-top: 26px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.actions {
+  margin-top: 2rem;
+  margin-bottom: auto;
+  min-height: 48px;
+  display: flex;
+  justify-content: center;
+}
+.actions .btn {
+  min-width: 160px;
+}
+
+/* задание 4: плашки слов одинаковой ширины */
+.word-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+}
+.word-btn {
+  width: min(320px, 100%);
+  min-height: 52px;
+  padding: 0.7rem 1rem;
+  border-radius: 4px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: center;
+  border: 2px solid var(--white);
+  background-color: var(--glass);
+  color: var(--white);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+.word-btn.selected {
+  box-shadow: 0 0 12px 4px var(--pink);
+}
+
+/* задание 4, поток: одно слово, гласные нажимаются */
+.stress-word {
+  /* длинные слова уменьшаются, чтобы влезть в экран */
+  font-size: clamp(1.4rem, calc(150vw / var(--len, 10)), 3.2rem);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-align: center;
+  white-space: nowrap;
+  margin: 18px 0 8px;
+}
+.v {
+  display: inline-block;
+  min-width: 0.5em;
+  padding: 0 0.04em;
+  margin: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.35s var(--ease), margin 0.35s var(--ease), color 0.2s, box-shadow 0.25s, background-color 0.25s;
+}
+/* выбранная буква: розовое свечение по контуру самой буквы */
+.v.picked,
+.v.v-wrong {
+  text-shadow: 0 0 2px var(--pink), 0 0 6px var(--pink), 0 0 14px var(--pink);
+}
+.checked .v {
+  pointer-events: none;
+}
+/* после ответа верная буква растёт, соседи расходятся */
+.v.v-right,
+.v.v-missed {
+  transform: scale(1.32);
+  margin: 0 0.16em;
+}
+.v.v-right {
+  color: var(--pink);
+  text-shadow: 0 0 16px var(--pink);
+}
+.v.v-missed {
+  color: var(--white);
+}
+.v:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 2px;
+}
+
+/* задание 6: предложение как обычный текст */
+.sentence {
+  font-size: clamp(1.25rem, 5.2vw, 1.55rem);
+  font-weight: 600;
+  line-height: 2;
+  text-align: center;
+  max-width: 30ch;
+}
+.w {
+  display: inline;
+  padding: 0.1em 0.12em;
+  margin: 0 -0.12em;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.25s, color 0.25s, box-shadow 0.25s, opacity 0.3s;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.w.selected {
+  background: rgba(255, 23, 147, 0.22);
+  box-shadow: 0 0 12px 2px var(--pink);
+}
+
+/* задание 9: слово с пропуском */
+.gap-word {
+  font-size: clamp(1.4rem, calc(150vw / var(--len, 10)), 3rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: center;
+  margin: 10px 0 34px;
+  white-space: nowrap;
+}
+.slot {
+  display: inline-block;
+  min-width: 0.62em;
+  margin: 0;
+  text-align: center;
+  border-bottom: 3px solid var(--white);
+  line-height: 1.1;
+  transition: color 0.3s, text-shadow 0.3s, border-color 0.3s;
+}
+.slot-letter {
+  display: inline-block;
+  transform: scale(1);
+  transition: transform 0.12s ease-out;
+}
+.slot-letter.out {
+  transform: scale(0);
+}
+.letters {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+}
+.letter-btn {
+  width: 76px;
+  height: 76px;
+  border-radius: 6px;
+  border: 2px solid var(--white);
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-size: 2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s, color 0.3s, box-shadow 0.3s, opacity 0.3s;
+}
+.letter-btn .ch {
+  display: inline-block;
+  transition: transform 0.11s ease-in;
+}
+.letter-btn.used {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.letter-btn.used .ch {
+  transform: scale(0);
+}
+.hint {
+  margin-top: 1.4rem;
+  min-height: 1.4em;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s, transform 0.4s var(--ease);
+}
+.hint.show {
+  opacity: 1;
+  transform: none;
+}
+
+/* СОСТОЯНИЯ ПОСЛЕ ОТВЕТА */
+/* розовое — выбрано, белое — верно, мимо — дрожит и гаснет */
+.checked .word-btn,
+.checked .w,
+.checked .letter-btn {
+  pointer-events: none;
+}
+.is-right {
+  background-color: var(--white) !important;
+  color: var(--pink) !important;
+  box-shadow: 0 0 14px 3px var(--pink) !important;
+  border-color: var(--white) !important;
+}
+/* выбрано, но неверно: остаётся розовое свечение */
+.is-wrong {
+  background-color: transparent !important;
+  border-color: var(--pink) !important;
+  box-shadow: 0 0 12px 4px var(--pink) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  animation: shake 0.45s ease;
+}
+.w.is-wrong {
+  outline: 2px solid var(--pink);
+  outline-offset: -2px;
+  background-color: rgba(255, 23, 147, 0.18) !important;
+}
+/* верно, но не выбрано: белая заливка, тёмный текст */
+.is-missed {
+  background-color: var(--white) !important;
+  color: var(--bg) !important;
+  border-color: var(--white) !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  animation: pulse 1s ease-in-out 2;
+}
+.is-dim {
+  opacity: 0.35;
+  box-shadow: none !important;
+}
+.slot.slot-right {
+  color: var(--pink);
+  border-color: var(--pink);
+  text-shadow: 0 0 16px var(--pink);
+}
+.slot.slot-fixed {
+  border-color: var(--pink);
+}
+.shake {
+  animation: shake 0.45s ease;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(2px); }
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+  50% { box-shadow: 0 0 14px 3px rgba(255, 255, 255, 0.75); }
+}
+
+/* ИТОГ РАУНДА */
+.result {
+  text-align: center;
+  margin-top: 8vh;
+}
+.result h2 {
+  font-size: clamp(2rem, 9vw, 2.8rem);
+}
+.result p {
+  margin: 1rem 0 2rem;
+  font-size: 1.1rem;
+}
+.result .big {
+  color: var(--pink);
+  font-weight: 700;
+}
+.result .buttons {
+  justify-content: center;
+}
+
+/* КОНФЕТТИ */
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 998;
+  overflow: hidden;
+}
+.bit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform, opacity;
+}
+.bit--pink {
+  background: var(--pink);
+}
+.bit--soft {
+  background: var(--pink-soft);
+  opacity: 0.7;
+}
+.bit--shard {
+  background: rgba(255, 200, 230, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* ТЕОРИЯ */
+.theory {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+.theory-title {
+  text-align: center;
+  font-size: clamp(1.5rem, 6vw, 2.2rem);
+  margin: 18px 0 6px;
+}
+.theory-sub {
+  text-align: center;
+  color: var(--muted);
+  margin: 0 0 18px;
+  font-size: 0.95rem;
+}
+.search {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: 10px 0 14px;
+  transition: background-color 0.3s;
+}
+/* фон появляется, только когда поиск прилип к верху */
+.search.stuck {
+  background: linear-gradient(var(--bg) 70%, rgba(21, 21, 21, 0));
+}
+.search-box {
+  position: relative;
+}
+.search-box svg {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  left: 14px;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+  color: var(--muted);
+}
+.search input {
+  width: 100%;
+  height: 50px;
+  padding: 0 16px 0 44px;
+  border-radius: 4px;
+  border: 2px solid var(--white);
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--white);
+  font: inherit;
+  font-size: 1rem;
+  outline: none;
+  transition: box-shadow 0.3s;
+}
+.search input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+.search input::placeholder {
+  color: var(--muted);
+}
+.search input:focus {
+  box-shadow: 0 0 12px 2px var(--pink);
+}
+.empty {
+  text-align: center;
+  color: var(--muted);
+  margin-top: 3rem;
+}
+
+/* словарь по буквам */
+.letter-section {
+  display: grid;
+  align-items: start;
+  grid-template-columns: 56px 1fr;
+  gap: 0 12px;
+  padding: 18px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.letter-section:first-of-type {
+  border-top: none;
+}
+.letter {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--pink);
+  line-height: 1;
+  text-transform: uppercase;
+}
+.dict-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 10px 20px;
+  align-content: start;
+}
+.dict-list li {
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.dict-list b {
+  color: var(--pink);
+  font-weight: 700;
+}
+.pleo-list li b {
+  font-weight: 600;
+}
+
+/* карточки правил */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+.rule-card {
+  padding: 18px 18px 16px;
+  border-radius: 6px;
+  border: 1.5px solid var(--glass-line);
+  background: rgba(20, 10, 16, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.rule-card h3 {
+  font-size: 1.1rem;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+.rule-card p {
+  margin: 0;
+  line-height: 1.5;
+}
+.rule-card .ex--stress {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+.rule-card .ex--stress b {
+  color: var(--pink);
+  font-weight: 700;
+}
+.rule-card .ex {
+  margin-top: 10px;
+  color: var(--pink-soft);
+  font-size: 0.95rem;
+}
+.rule-card--intro {
+  margin-bottom: 14px;
+}
+
+/* МЕНЬШЕ ДВИЖЕНИЯ */
+@media (prefers-reduced-motion: reduce) {
+  .polygon,
+  .bg-shape {
+    animation: none;
+  }
+  .is-wrong,
+  .is-missed,
+  .shake {
+    animation: none;
+  }
+}
+
+/* МОИ ОШИБКИ */
+.mistake-group {
+  padding: 22px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.mistake-group:first-child {
+  border-top: none;
+}
+.mistake-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.mistake-head h2 {
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mistake-head h2 .menu-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.mistake-head p {
+  margin: 4px 0 0;
+  color: var(--muted);
+}
+.mistake-head .btn {
+  flex: none;
+}
+.mistake-list b {
+  color: var(--pink);
+  font-weight: 700;
+}
+
+/* точка между «Словарь» и «Теория» по середине высоты слов */
+.mid-dot {
+  width: 5px;
+  height: 5px;
+  margin: 0 0.6em;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+/* ВКЛАДКИ СЛОВАРЬ / ТЕОРИЯ */
+.tabs {
+  display: flex;
+  gap: 4px;
+  width: fit-content;
+  margin: 4px auto 6px;
+  padding: 4px;
+  border-radius: 6px;
+  border: 1.5px solid var(--glass-line);
+  background: var(--glass);
+}
+.tab {
+  min-height: 40px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s, color 0.25s;
+}
+.tab.active {
+  background: var(--pink);
+}
+@media (hover: hover) {
+  .tab:not(.active):hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* появление кнопки «Ответ» после выбора */
+#check-button:not([hidden]) {
+  animation: appear 0.25s var(--ease);
+}
+@keyframes appear {
+  from { opacity: 0; transform: translateY(6px); }
+}
+
+@media (max-width: 420px) {
+  .menu-row {
+    gap: 16px;
+  }
+}

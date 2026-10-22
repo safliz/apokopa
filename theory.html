@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Апокопа — теория</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="top">
+    <div class="top-left">
+      <a class="back" href="index.html" aria-label="На главную">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <a class="logo" href="index.html"><img src="img/logo.svg" alt="Апокопа" /></a>
+    <div class="top-right menu" data-menu></div>
+  </header>
+
+  <main class="theory">
+    <h1 class="theory-title" id="title"></h1>
+    <p class="theory-sub" id="sub"></p>
+
+    <div class="search">
+      <label class="search-box">
+        <svg viewBox="0 0 18 18" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="2"/><path d="M12.5 12.5L16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="search" type="search" placeholder="Поиск" autocomplete="off" spellcheck="false" />
+      </label>
+    </div>
+
+    <div id="content"></div>
+    <p class="empty" id="empty" hidden>Ничего не нашлось</p>
+  </main>
+
+  <div class="bg-shape bg-shape--theory"></div>
+
+  <script src="js/data/task4.js"></script>
+  <script src="js/data/task6.js"></script>
+  <script src="js/data/task9.js"></script>
+  <script src="js/data/task10.js"></script>
+  <script src="js/data/task11.js"></script>
+  <script src="js/data/task12.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/theory.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Апокопа — практика</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="top">
+    <div class="top-left">
+      <a class="back" href="index.html" aria-label="На главную">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M14 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <a class="logo" href="index.html"><img src="img/logo.svg" alt="Апокопа" /></a>
+    <div class="top-right menu" data-menu></div>
+  </header>
+  <p class="page-label" id="page-label"></p>
+
+  <main class="practice">
+    <div class="progress" id="progress" hidden><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress progress--retry" id="progress-retry" hidden><div class="progress-fill" id="progress-retry-fill"></div></div>
+    <div class="retry-tag" id="retry-tag" hidden>Работа над ошибками</div>
+    <p class="prompt" id="prompt"></p>
+
+    <div class="stage" id="stage"></div>
+
+    <div class="actions" id="actions">
+      <button id="check-button" class="btn pink" type="button" hidden>Ответ</button>
+      <button id="next-button" class="btn pink" type="button" hidden>Далее</button>
+    </div>
+  </main>
+
+  <div class="bg-shape bg-shape--random" id="bg-shape"></div>
+
+  <script src="js/data/task4.js"></script>
+  <script src="js/data/task6.js"></script>
+  <script src="js/data/task9.js"></script>
+  <script src="js/data/task10.js"></script>
+  <script src="js/data/task11.js"></script>
+  <script src="js/data/task12.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/practice.js"></script>
+</body>
+</html>
